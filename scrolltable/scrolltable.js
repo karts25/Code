@@ -66,16 +66,20 @@ function insertRow(position,data)
 	{
 	    var datastring = data[i];
 	    var keys = datastring.split(",");// split on commas
+	    var newkeys = new Array();
 	    for (key in keys) // add this to the keys
 	    {
-		if (this.keys.indexOf(keys[key]) == -1)
-		    this.keys[i].push(keys[key]);	    		
+		if (this.keys[i].indexOf(keys[key]) == -1)
+		{
+		    this.keys[i].push(keys[key]);	    	
+		    newkeys.push(keys[key]);
+		}
 		// add the key to the drop down list		
 	    }
-	    this.addKeys(i,keys);
+	    this.addKeys(i,newkeys);
 	}
     	
-	cell.innerHTML = '<div style="height:120px;width:120px;border:0 #ccc;font:16px/26px Georgia,\
+	cell.innerHTML = '<div style="height:120px;width:200px;border:0 #ccc;font:16px/26px Georgia,\
 Garamond, Serif;overflow:auto;">'+data[i]+'</div>';
     }    
 }

@@ -17,11 +17,20 @@
 <script type="text/javascript">
   function create_table()
   {
-  var myscrolltable = ScrollTable(3,3,["Title","Book","Author"],["Select","None","None"]);
-  mytable = myscrolltable.table;
-  myscrolltable.insertRow(-1,["alice","in","wonderland"]);
-  myscrolltable.insertRow(-1,["peter","hi","pan"]);
-  document.body.appendChild(mytable);
+  var myscrolltable = ScrollTable(4,4,["Title","Author","Genre","Notes"],["None","Select","Select","None"]);
+  mytable = myscrolltable.table;    
+  document.body.appendChild(mytable);  
+  fill_table(myscrolltable);
+  }
+
+  function fill_table(myscrolltable)
+  {
+  myscrolltable.insertRow(-1,["Ice Station","Matthew Reilly","Fiction,Action,Thriller",
+  "A gripping thriller involving the US Marines, a prized discovery in Antarctica and a mad dash by multiple countries to gain possession of it. Full of twists and turns, a must read if you're into the action genre. I was pleasantly surprised by this one - I even rate it above many of Ludlum's books."
+]);
+  myscrolltable.insertRow(-1,["Prey","Michael Crichton","Fiction,Sci-fi,Thriller","Crichton weaves together nanotechnology, genetics and distributed computing into a gripping story. The book seems to lean a little more towards fiction than science  especially towards the end, but this is nevertheless one of Crichton's most thrilling tales."]);
+  myscrolltable.insertRow(-1,["Congo","Michael Crichton","Fiction,Adventure","A step away from Crichton's usual, but this is a really entertaining story involving explorers in the Congo, murderous apes and a highly intelligent baby gorilla. Took me back to the days of Willard Price books!"]);
+  myscrolltable.insertRow(-1,["Timeline","Michael Crichton","Fiction,Sci-fi","Time Travel into bloodthirsty medieval Europe? Hell yes! Many regard this as one of Crichton's best. Not sure about that, but it was a great read."]);
   
   }
 </script>

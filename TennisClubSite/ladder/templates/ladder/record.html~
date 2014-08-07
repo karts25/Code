@@ -1,0 +1,21 @@
+<h1> Score Entry </h1>
+
+<form action="{% url 'ladder:recorded' %}" method="post">
+{% csrf_token %}
+Singles <input type="radio" name="matchtype"  value="singles">
+Doubles <input type="radio" name="matchtype"  value="doubles">
+Mixed Doubles<input type="radio" name="matchtype" value="mixed"><br>
+Date <input type="date"  name ="matchdate"><br>
+<h2> Team 1 </h2> 
+Andrew id of Player 1 <input              name ="team1id1"> 
+Andrew id of Player 2 <input              name ="team1id2">
+Set Score <input type=number name = "score1"> <br>
+<h2> Team 2 </h2>
+Andrew id of Player 1 <input              name ="team2id1"> 
+Andrew id of Player 2 <input              name ="team2id2"> 
+Set Score <input type=number name = "score2"><br>
+<input type="Submit" value="Record"/>
+
+</form>
+
+

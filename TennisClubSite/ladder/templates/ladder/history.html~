@@ -1,0 +1,10 @@
+<h1> Match History </h1>
+{% if matchlist %}
+<ul>
+  {% for match in matchlist %}
+  <li>{{match.matchtype}} {{match.matchdate}} {{match.team1_setscore}} {{match.team2_setscore}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No matches have been played. </p>
+{%endif %}

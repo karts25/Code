@@ -45,10 +45,9 @@ class PlayerProfile(models.Model):
     FEMALE    = 'W'
     GENDER_CHOICES = ((MALE,'Male'),(FEMALE,'Female'))
     gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default=MALE) 
-
-    basescore = models.IntegerField(default=0) # added to ladder rank
+    basescore = models.IntegerField(default=0)
+    score     = models.IntegerField(default=0)
     matches   = models.ManyToManyField(Match,blank='true')
-    
 
     def __unicode__(self):
         return self.user.username

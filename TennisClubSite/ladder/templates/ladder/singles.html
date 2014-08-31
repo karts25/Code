@@ -1,0 +1,30 @@
+<h1> Singles ladder </h1>
+<div>
+<h2> Men </h2>
+{% if playerlist_men %}
+<table>
+  {% for player in playerlist_men %}
+  <tr>
+    <td><b>{{player.user.username}}</b></td> <td>{{player.score}} </td>
+  </tr>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No men's matches have been played </p>
+{% endif %}
+</div>
+
+<div>
+<h2> Women </h2>
+{% if playerlist_women %}
+<table>
+  {% for player in playerlist_women %}
+  <tr>
+    <td><b>{{player.user.username}}</b></td> <td>{{player.score}} </td>
+  </tr>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No women's matches have been played </p>
+{% endif %}
+</div>

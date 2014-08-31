@@ -7,12 +7,34 @@ Doubles <input type="radio" name="matchtype"  value="doubles">
 Mixed Doubles<input type="radio" name="matchtype" value="mixed"><br>
 Date <input type="date"  name ="matchdate"><br>
 <h2> Team 1 </h2> 
-Andrew id of Player 1 <input              name ="team1id1"> 
-Andrew id of Player 2 <input              name ="team1id2">
+Andrew id of Player 1
+<select name="team1id1">
+  {% for player in playerlist %}
+  <option value={{player.user.username}}>{{player.user.username}}</option>
+  {% endfor %}
+</select>
+Andrew id of Player 2
+<select name="team1id2">
+  <option value="">None</option>
+  {% for player in playerlist %}
+  <option value={{player.user.username}}>{{player.user.username}}</option>
+  {% endfor %}
+</select>
 Set Score <input type=number name = "team1_setscore"> <br>
 <h2> Team 2 </h2>
-Andrew id of Player 1 <input              name ="team2id1"> 
-Andrew id of Player 2 <input              name ="team2id2"> 
+Andrew id of Player 1 
+<select name="team2id1">
+  {% for player in playerlist %}
+  <option value={{player.user.username}}>{{player.user.username}}</option>
+  {% endfor %}
+</select>
+Andrew id of Player 2
+<select name="team2id2">
+  <option value=''>None</option>
+  {% for player in playerlist %}
+  <option value={{player.user.username}}>{{player.user.username}}</option>
+  {% endfor %}
+</select>
 Set Score <input type=number name = "team2_setscore"><br>
 <input type="Submit" value="Record"/>
 

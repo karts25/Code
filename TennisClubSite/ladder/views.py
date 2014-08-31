@@ -2,9 +2,17 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from ladder.models import PlayerProfile,Match
 from django.template import RequestContext, loader
+import rankingcalculator
 
 def record(request):
-    return render(request,'ladder/record.html')
+    playerlist = PlayerProfile.objects.all()
+    template = loader.get_template('ladder/record.html')
+    context = RequestContext(request,{
+            'playerlist':playerlist,
+            })
+    return HttpResponse(template.render(context))
+
+    #return render(request,'ladder/record.html')
 
 def recorded(request):
     # TODO: Sanitize inputs
@@ -27,6 +35,8 @@ def recorded(request):
         player.matches.add(match)
         player.save
     
+    # Update player scores
+    rankingcalculator.seven_point_system()
     return(history(request))
     
 
@@ -38,10 +48,29 @@ def history(request):
             })
     return HttpResponse(template.render(context))
 
-def rankings(request):
-    players_all = PlayerProfile.objects.all()
-    for player in players_all:
-        score = player.score_all()
-        print player.user.username,score
-    return HttpResponse(score)
+
+def rankings_singles(request):
+    # Update player scores
+    # TODO: Make this a daily event
+    rankingcalculator.seven_point_system()
+
+    playerlist_men = PlayerProfile.objects.filter(gender='M').order_by('-score')
+    playerlist_women = PlayerProfile.objects.filter(gender='W').order_by('-score')
+    template = loader.get_template('ladder/singles.html')
+    context = RequestContext(request,{
+            'playerlist_men':playerlist_men,
+            'playerlist_women':playerlist_women,
+            })
+    return HttpResponse(template.render(context))
         
+"""
+def index(request):
+    template = loader.get_template('ladder/index.html')
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+def about(request):
+    template = loader.get_template('ladder/about.html')
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+"""

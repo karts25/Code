@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, "templates"),
+]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -23,6 +24,7 @@ SECRET_KEY = '78qrj7j3pbb_l%p*sob4t&3g&i^6r9zzfrb*i1klg+04130w(a'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+
 
 ALLOWED_HOSTS = []
 
@@ -80,5 +82,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+STATICFILES_DIRS=(BASE_DIR+'/static/',)
 STATIC_URL = '/static/'
-

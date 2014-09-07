@@ -4,29 +4,38 @@
 {%block ladder_menu_record %}<li><a href="/ladder/record" class="active">Record Match</a></li>{% endblock%}
 {%block ladder_title %} Record Match {% endblock %}
 {%block ladder_content_block %}    
-
+<h3><span> {{error}} </span></h3>
 <form action="{% url 'ladder:recorded' %}" method="post">
 {% csrf_token %}
 {{form}}
+<h2> <span> Enter your login information </span></h2>
+<table>
+<tr>
+<td align="right"> Username : <input type=text name = "username"></td>
+</tr>
+<tr>
+<td align="right"> Password  : <input type=password name = "password"><br></td>
+</tr>
+</table>
 <h2> <span> Match Type </span></h2>
 <input type="radio" name="matchtype"  value="singles"> Singles <br>
 <input type="radio" name="matchtype"  value="doubles"> Doubles <br>
 
-<h2><span> Date Played </span></h2>
+<h2><span> Date Played</span></h2>
 <input type="date"  name ="matchdate"><br>
 
 <h2><span> Team 1 </span></h2> 
 Andrew id of Player 1
 <select name="team1id1">
   {% for player in playerlist %}
-  <option value={{player.user.username}}>{{player.user.username}}</option>
+  <option value={{player.user.username}}>{{player.user.first_name}}</option>
   {% endfor %}
 </select>
 Andrew id of Player 2
 <select name="team1id2">
   <option value="">None</option>
   {% for player in playerlist %}
-  <option value={{player.user.username}}>{{player.user.username}}</option>
+  <option value={{player.user.username}}>{{player.user.first_name}}</option>
   {% endfor %}
 </select>
 Set Score <input type=number name = "team1_setscore"> <br>
@@ -34,14 +43,14 @@ Set Score <input type=number name = "team1_setscore"> <br>
 Andrew id of Player 1 
 <select name="team2id1">
   {% for player in playerlist %}
-  <option value={{player.user.username}}>{{player.user.username}}</option>
+  <option value={{player.user.username}}>{{player.user.first_name}}</option>
   {% endfor %}
 </select>
 Andrew id of Player 2
 <select name="team2id2">
   <option value=''>None</option>
   {% for player in playerlist %}
-  <option value={{player.user.username}}>{{player.user.username}}</option>
+  <option value={{player.user.username}}>{{player.user.first_name}}</option>
   {% endfor %}
 </select>
 Set Score <input type=number name = "team2_setscore"><br>

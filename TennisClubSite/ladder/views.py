@@ -1,15 +1,18 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import authenticate
 from django.http import HttpResponseRedirect, HttpResponse
 from ladder.models import PlayerProfile,Match,DoublesTeamProfile,MatchStats
 from django.template import RequestContext, loader
 from ladder.recordform import RecordForm
+from django.core.exceptions import ValidationError
 import rankingcalculator
 
-def record(request):
+def record(request,err=''):
     playerlist = PlayerProfile.objects.all()
     template = loader.get_template('ladder/record.html')
     context = RequestContext(request,{
             'playerlist':playerlist,
+            'error':err,
             })
     return HttpResponse(template.render(context))
 
@@ -26,16 +29,18 @@ def history(request):
 
 
 def recorded(request):
-    # TODO: Sanitize inputs
+    # TODO: Proper form validation. Currently very hacky
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    
+    if user is None:
+        return record(request,'* User login information is not valid')
+
     form = RecordForm(request.POST)
-    if form.is_valid():
-        print "valid form"
-    else:
-        print "invalid form",form.errors
+    if not form.is_valid():
+        return record(request,'* Please check if Match Type, Date and scores are valid')
     matchtype = request.POST['matchtype']
-    if matchtype == 'doubles':
-        print "doubles"
-        form.clean_doublesplayers()
     matchdate = request.POST['matchdate']
     team1_id1 = request.POST['team1id1']
     team1_player1 = PlayerProfile.objects.get(user__username__exact = team1_id1)
@@ -44,6 +49,9 @@ def recorded(request):
     team1_setscore = request.POST['team1_setscore']
     team2_setscore = request.POST['team2_setscore']
     
+    if team1_id1 == team2_id1:
+        return record(request,'* Surely you did not play against yourself!')
+
     if team1_setscore > team2_setscore:
         winner1 = team1_player1
         winner_setscore = team1_setscore
@@ -64,10 +72,16 @@ def recorded(request):
         rankingcalculator.seven_point_system()
     else:
         team1_id2 = request.POST['team1id2']
-        team1_player2 = PlayerProfile.objects.get(user__username__exact = team1_id2)
         team2_id2 = request.POST['team2id2']
-        team2_player2 = PlayerProfile.objects.get(user__username__exact = team2_id2)
+        if (not team1_id2) or (not team2_id2):
+            return record(request,'* Player 2 required for doubles')
         
+        if len(set([team1_id1,team1_id2,team2_id1,team2_id2])) < 4:
+            return record(request,'* All 4 players must be unique')
+            
+        team1_player2 = PlayerProfile.objects.get(user__username__exact = team1_id2)
+        team2_player2 = PlayerProfile.objects.get(user__username__exact = team2_id2)
+
         # Sort alphabetically
         if team1_id2 < team1_id1:
             temp = team1_player1
@@ -79,7 +93,8 @@ def recorded(request):
             team2_player2 = temp
         
         # if team1 is new, make a profile for them    
-        doublesteamprofile1 = DoublesTeamProfile.objects.get(player1 = team1_player1, player2 = team1_player2)
+        doublesteamprofile1 = DoublesTeamProfile.objects.get(player1 = team1_player1, 
+                                                             player2 = team1_player2)
         if not doublesteamprofile1:
             if team1_player1.gender == 'M' and team1_player2.gender == 'M':
                 gender = 'M'
@@ -90,11 +105,14 @@ def recorded(request):
             matchstats1 = MatchStats()
             matchstats1.save()
           
-            doublesteamprofile1 = DoublesTeamProfile(player1=team1_player1,player2=team1_player2,gender=gender,matchstats=matchstats1)
+            doublesteamprofile1 = DoublesTeamProfile(player1=team1_player1,
+                                                     player2=team1_player2,
+                                                     gender=gender,matchstats=matchstats1)
             doublesteamprofile1.save()
 
         # if team2 is new, make a profile for them    
-        doublesteamprofile2 = DoublesTeamProfile.objects.get(player1 = team2_player1, player2 = team2_player2)
+        doublesteamprofile2 = DoublesTeamProfile.objects.get(player1 = team2_player1, 
+                                                             player2 = team2_player2)
         if not doublesteamprofile2:
             if team2_player1.gender == 'M' and team2_player2.gender == 'M':
                 gender = 'M'
@@ -104,8 +122,10 @@ def recorded(request):
                 gender = 'X'
             matchstats2 = MatchStats()
             matchstats2.save()
-            doublesteamprofile2 = DoublesTeamProfile(player1=team2_player1,player2=team2_player2,gender=gender,matchstats=matchstats2)  
-        doublesteamprofile2.save()
+            doublesteamprofile2 = DoublesTeamProfile(player1=team2_player1,
+                                                     player2=team2_player2,
+                                                     gender=gender,matchstats=matchstats2)  
+            doublesteamprofile2.save()
 
         # Create match object for this match
         if team1_setscore > team2_setscore:
@@ -123,6 +143,7 @@ def recorded(request):
                       winner_setscore=winner_setscore,loser_setscore=loser_setscore)        
         match.save()
         rankingcalculator.update_matchstats_doubles_all()
+
     return redirect('/ladder/history',request)
     
 
@@ -149,3 +170,4 @@ def rankings_doubles(request):
             'teamlist_mixed':teamlist_mixed,
             })
     return HttpResponse(template.render(context))
+

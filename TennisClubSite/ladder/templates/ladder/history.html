@@ -1,12 +1,23 @@
-<h1> Match History </h1>
+{% extends 'ladder/base_ladder.html' %}
+{% load staticfiles %}
+
+{%block ladder_menu_history %}<li><a href="/ladder/history" class="active">History</a></li>{% endblock%}
+{%block ladder_title %} Match History {% endblock %}
+{%block ladder_content_block %}    
+List of all matches played so far
 {% if matchlist %}
-<table>
-  {% for match in matchlist %}
-  <tr>
-    <td><b>{{match.matchtype}}</b></td> <td>{{match.matchdate}}</td> <td>{{match.team1_id1}} {{match.team1_id2}}</td> <td>{{match.team2_id1}} {{match.team2_id2}}</td> <td>{{match.team1_setscore}}</td> <td>{{match.team2_setscore}}</td>
-  </tr>
-  {% endfor %}
+    <table cellspacing="20" align="center">
+      <tr> <td><b>Format</b></td> <td><b>Date Played</b></td>  <td><b>Player/Team 1</b></td>  <td><b>Score</b></td> <td><b>Player/Team 2</b></td>  
+      </tr>
+      {% for match in matchlist %}
+      <tr>
+	<td>{{match.matchdate}}</td> <td>{{match.matchtype}}</td> <td>{{match.winner1.user.username}} {{match.winner2.user.username}}</td><td>{{match.winner_setscore}}-{{match.loser_setscore}}</td> <td>{{match.loser1.user.username}} {{match.loser2.user.username}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
 </ul>
 {% else %}
 <p>No matches have been played. </p>
 {%endif %}
+<br>
+{% endblock %}

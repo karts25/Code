@@ -1,70 +1,81 @@
 """
 Contains functions to compute ladder rankings
 """
-from ladder.models import PlayerProfile, Match
-
+from ladder.models import PlayerProfile, DoublesTeamProfile, Match
+from django.db.models import Q
 """
 Singles Scoring Systems
 """
 
 def seven_point_system():
-    matchlist = Match.objects.all().filter(matchtype='singles').reverse()
+    matchlist = Match.objects.filter(matchtype='singles').reverse()
     players_all = PlayerProfile.objects.all()
-    
     # Reset all player scores to their base scores
     # Note: Recalculating from entire history is not efficient but helps
     #       prevent scores from messing up when a match is deleted
     for player in players_all:
-        player.score = player.basescore
-        print player.score
-        player.save()
+        player.matchstats.score = player.matchstats.basescore
+        player.matchstats.numwon = 0
+        player.matchstats.percentwon = 0
+        player.matchstats.numplayed = 0
+        player.matchstats.save()
 
     for match in matchlist:
-        player1_name = match.team1_id1
-        player2_name = match.team2_id1
-        player1 = players_all.get(user__username__exact=player1_name)
-        player2 = players_all.get(user__username__exact=player2_name)
+        winner = match.winner1
+        loser  = match.loser1
         
-        if match.team1_setscore > match.team2_setscore:
-            losingscore = match.team2_setscore
-        else:
-            losingscore = match.team1_setscore
+        if winner.matchstats.score > loser.matchstats.score:
+            # if winner is higher ranked, they get 7 points.
+            winner.matchstats.score = winner.matchstats.score + 7
+            
+        elif winner.matchstats.score < loser.matchstats.score:
+            # if winner is lower ranked, they get score of loser + 7 points. 
+            winner.matchstats.score = loser.matchstats.score + 7
 
-        # find higher ranked player
-        if player1.score > player2.score:
-            higher_ranked = player1
-            lower_ranked  = player2
-        else:
-            higher_ranked = player2
-            lower_ranked = player1
-            
-        if match.isWinner(higher_ranked):
-            # if winner is higher_ranked ranked, they get 7 points
-            higher_ranked.score = higher_ranked.score + 7
-            # loser gets 1 point for each game they win
-            lower_ranked.score = lower_ranked.score + losingscore
-        else:
-            # if winner is lower_ranked ranked, their score is now score of higher_ranked ranked + 7
-            lower_ranked.score = higher_ranked.score+7
-            # loser gets 1 point for each game they win
-            higher_ranked.score = higher_ranked.score + losingscore
-            
+        # Loser always gets points = # of games won
+        loser.matchstats.score  = loser.matchstats.score + match.loser_setscore
+
+        # Update other matchstats
+        winner.matchstats.numplayed += 1
+        winner.matchstats.numwon += 1
+        loser.matchstats.numplayed +=1
+
         # Save player data
-        higher_ranked.save()
-        lower_ranked.save()
+        winner.matchstats.save()
+        loser.matchstats.save()
 
-def winpercent_singles():
-    players_all = PlayerProfile.objects.all()
-    for player in players_all:
-        player.singles_winpercent = calculate_winpercent(player,'singles')
-        player.save()
+    players = PlayerProfile.objects.filter(~Q(matchstats__numplayed=0))
+    for player in players:
+        player.matchstats.percentwon = round(100*player.matchstats.numwon/player.matchstats.numplayed)
+        player.matchstats.save()   
 
-def calculate_winpercent(player,match_type):
-    matchlist = player.matches.filter(matchtype=match_type)
-    wins = 0
+
+
+""" 
+Doubles Scoring System
+"""
+
+def update_matchstats_doubles_all():
+    """
+    recalculate stats for all teams
+    """
+    teams = DoublesTeamProfile.objects.all()
+    matchlist = Match.objects.filter(matchtype='doubles')
+    for team in teams:
+        team.matchstats.numplayed = 0
+        team.matchstats.numwon = 0
+        team.matchstats.save()
     for match in matchlist:
-        if match.isWinner(player):
-            wins +=1
-    winningpercent = wins/matchlist.count()
-    return winningpercent
-
+        winningteam = DoublesTeamProfile.objects.get(player1 = match.winner1, player2 = match.winner2)
+        losingteam = DoublesTeamProfile.objects.get(player1 = match.loser1, player2 = match.loser2)
+        winningteam.matchstats.numplayed +=1
+        winningteam.matchstats.numwon +=1
+        losingteam.matchstats.numplayed +=1
+        winningteam.matchstats.save()
+        losingteam.matchstats.save()
+        
+    teams = DoublesTeamProfile.objects.filter(~Q(matchstats__numplayed=0))
+    for team in teams:
+        team.matchstats.percentwon = round(100*team.matchstats.numwon/team.matchstats.numplayed)
+        team.matchstats.save()
+    

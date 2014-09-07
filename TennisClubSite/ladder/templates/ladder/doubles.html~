@@ -1,0 +1,44 @@
+{% extends 'ladder/base_ladder.html' %}
+{% load staticfiles %}
+
+{%block ladder_menu_doubles %}<li><a href="/ladder/doubles" class="active">Doubles</a></li>{% endblock%}
+{%block ladder_title %} Doubles Rankings {% endblock %}
+{%block ladder_content_block %}    
+
+<div class="container clearfix mb-20">
+  <div class="row">
+    <div class="c6">
+      <h2><span> Men </span></h2>
+      {% if playerlist_men %}
+      <table cellspacing="10">
+	<tr>
+	  <td><b>Rank</b></td> <td><b>Name</b></td> <td><b>Points</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>W</b></td> <td><b>W%</b></td>
+	</tr>
+	{% for player in playerlist_men %}
+	<tr>
+	  <td>{{forloop.counter}})</td><td>{{player.user.first_name}} {{player.user.last_name}}</td> <td>{{player.score}} </td><td>{{player.user.username}}</td>
+	</tr>
+	{% endfor %}
+	{% else %}
+	<p>No men's matches have been played </p>
+	{% endif %}
+      </table>
+    </div>
+    <div class="c6">
+      <h2><span> Women </span></h2>
+      {% if playerlist_women %}
+      <table cellspacing="10" align="center">
+	<td><b>Rank</b></td> <td><b>Name</b></td> <td><b>Points</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>W</b></td> <td><b>W%</b></td>
+	{% for player in playerlist_women %}
+	<tr>
+	  <td>{{forloop.counter}})</td><td>{{player.user.first_name}} {{player.user.last_name}}</td> <td>{{player.score}} </td><td>{{player.user.username}}</td>
+	</tr>
+	{% endfor %}
+	{% else %}
+	<p>No women's matches have been played </p>
+	{% endif %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

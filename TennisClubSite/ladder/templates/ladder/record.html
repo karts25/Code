@@ -1,12 +1,21 @@
-<h1> Score Entry </h1>
+{% extends 'ladder/base_ladder.html' %}
+{% load staticfiles %}
+
+{%block ladder_menu_record %}<li><a href="/ladder/record" class="active">Record Match</a></li>{% endblock%}
+{%block ladder_title %} Record Match {% endblock %}
+{%block ladder_content_block %}    
 
 <form action="{% url 'ladder:recorded' %}" method="post">
 {% csrf_token %}
-Singles <input type="radio" name="matchtype"  value="singles">
-Doubles <input type="radio" name="matchtype"  value="doubles">
-Mixed Doubles<input type="radio" name="matchtype" value="mixed"><br>
-Date <input type="date"  name ="matchdate"><br>
-<h2> Team 1 </h2> 
+{{form}}
+<h2> <span> Match Type </span></h2>
+<input type="radio" name="matchtype"  value="singles"> Singles <br>
+<input type="radio" name="matchtype"  value="doubles"> Doubles <br>
+
+<h2><span> Date Played </span></h2>
+<input type="date"  name ="matchdate"><br>
+
+<h2><span> Team 1 </span></h2> 
 Andrew id of Player 1
 <select name="team1id1">
   {% for player in playerlist %}
@@ -21,7 +30,7 @@ Andrew id of Player 2
   {% endfor %}
 </select>
 Set Score <input type=number name = "team1_setscore"> <br>
-<h2> Team 2 </h2>
+<h2><span> Team 2 </span></h2>
 Andrew id of Player 1 
 <select name="team2id1">
   {% for player in playerlist %}
@@ -36,8 +45,9 @@ Andrew id of Player 2
   {% endfor %}
 </select>
 Set Score <input type=number name = "team2_setscore"><br>
-<input type="Submit" value="Record"/>
+<br><br>
+<input type="Submit" value="Submit"/>
 
 </form>
-
+{% endblock %}
 

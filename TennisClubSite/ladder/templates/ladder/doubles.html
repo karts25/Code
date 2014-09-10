@@ -1,7 +1,7 @@
 {% extends 'ladder/base_ladder.html' %}
 {% load staticfiles %}
 
-{%block ladder_menu_doubles %}<li><a href="/ladder/doubles" class="active">Doubles</a></li>{% endblock%}
+{%block ladder_menu_doubles %}<li><a href="/ladder/doubles" class="active">Doubles Ladder</a></li>{% endblock%}
 {%block ladder_title %} Doubles Rankings {% endblock %}
 {%block ladder_content_block %}    
 
@@ -12,11 +12,11 @@
       {% if teamlist_men %}
       <table cellspacing="10">
 	<tr>
-	  <td><b>Rank</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>W</b></td> <td><b>W%</b></td>
+	  <td><b>Rank</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>Won</b></td> <td><b>Win%</b></td>
 	</tr>
 	{% for team in teamlist_men %}
 	<tr>
-	  <td>{{forloop.counter}})</td><td>{{team.player1.user.username}}/{{team.player2.user.username}}</td>
+	  <td>{{forloop.counter}})</td><td>{{team.player1.user.first_name}}/{{team.player2.user.first_name}}</td>
 	  <td>{{team.matchstats.numplayed}}</td><td>{{team.matchstats.numwon}}</td>
 	  <td>{{team.matchstats.percentwon}}</td>
 	</tr>
@@ -31,11 +31,11 @@
       {% if teamlist_women %}
       <table cellspacing="10">
 	<tr>
-	  <td><b>Rank</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>W</b></td> <td><b>W%</b></td>
+	  <td><b>Rank</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>Won</b></td> <td><b>Win%</b></td>
 	</tr>
 	{% for team in teamlist_women %}
 	<tr>
-	  <td>{{forloop.counter}})</td><td>{{team.player1.user.username}}/{{team.player2.user.username}}</td>
+	  <td>{{forloop.counter}})</td><td>{{team.player1.user.first_name}}/{{team.player2.user.first_name}}</td>
 	  <td>{{team.matchstats.numplayed}}</td><td>{{team.matchstats.numwon}}</td>
 	  <td>{{team.matchstats.percentwon}}</td>
 	</tr>
@@ -50,11 +50,11 @@
       {% if teamlist_mixed %}
       <table cellspacing="10">
 	<tr>
-	  <td><b>Rank</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>W</b></td> <td><b>W%</b></td>
+	  <td><b>Rank</b></td> <td><b>Andrew ID</b></td> <td><b>Played</b></td> <td><b>Won</b></td> <td><b>Win%</b></td>
 	</tr>
 	{% for team in teamlist_mixed %}
 	<tr>
-	  <td>{{forloop.counter}})</td><td>{{team.player1.user.username}}/{{team.player2.user.username}}</td>
+	  <td>{{forloop.counter}})</td><td>{{team.player1.user.first_name}}/{{team.player2.user.first_name}}</td>
 	  <td>{{team.matchstats.numplayed}}</td><td>{{team.matchstats.numwon}}</td>
 	  <td>{{team.matchstats.percentwon}}</td>
 	</tr>

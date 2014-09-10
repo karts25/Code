@@ -2,27 +2,28 @@
 
 
 {% load staticfiles %}
-{%block menu_roster %}<li><a href="/ladder/singles" class="active">Roster</a></li>{% endblock%}
+{%block menu_roster %}<li><a href="/ladder/roster" class="active">Roster</a></li>{% endblock%}
 {% block title %} CMU Tennis Club: Ladder {% endblock %}
-
 {% block content_block %}
-
 <br><br><br><br>
-<div class="navbar navbar-inverse navbar-static-top clearfix" role="navigation">
+
+<div class="container">
+<div class="navbar navbar-static-top clearfix" role="navigation">
  <div class="navbar-header clearfix"> 
       <ul class="nav navbar-nav">
-	{%block ladder_menu_singles %}<li><a href="/ladder/singles">Singles</a></li>{% endblock %}
-	{%block ladder_menu_doubles %}<li><a href="/ladder/doubles">Doubles</a></li>{% endblock %}
-	{%block ladder_menu_history %}<li><a href="/ladder/history">History</a></li>{% endblock%}
-	{%block ladder_menu_record %}<li><a href="/ladder/record">Record Match</a></li>{% endblock%}	
+	{%block ladder_menu_roster %}<li><a href="/ladder/roster">Team Roster</a></li>{% endblock %}
+	{%block ladder_menu_singles %}<li><a href="/ladder/singles">Singles Ladder</a></li>{% endblock %}
+	{%block ladder_menu_doubles %}<li><a href="/ladder/doubles">Doubles Ladder</a></li>{% endblock %}
+	{%block ladder_menu_history %}<li><a href="/ladder/history">Ladder History</a></li>{% endblock%}
+	{%block ladder_menu_record %}<li><a href="/ladder/record">Record Match</a></li>{% endblock%}
       </ul>
-  </div>    
+ </div>    
 </div>
 <!--<h1> {% block ladder_title %} Ladder {% endblock %} </h1>-->
+
 {% block ladder_content_block %}
 {% endblock %}
 </div>
-</div><!-- /.container -->
-</div><!-- /.container -->
+</div>
 {% endblock %}
 

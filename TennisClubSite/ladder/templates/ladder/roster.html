@@ -1,0 +1,67 @@
+{% extends 'ladder/base_ladder.html' %}
+{% load staticfiles %}
+
+{%block ladder_menu_roster %}<li><a href="/ladder/roster" class="active">Team Roster</a></li>{% endblock%}
+{%block ladder_content_block %}    
+<!--Singles Points are calculated using a 7-point version of the scoring system described <a href="http://www.tennisengine.com/info/ranksys_9.asp"> here </a>.-->
+
+<div class="container clearfix mt-100 mb-20">
+      <div class="c12 row">
+        <h2><span>Officers</span></h2>
+        <div class = "c5">
+          <p class="name"> Captain (Men) </p>
+          <p class="position"> Karthik Lakshmanan <br> (Andrew id: karthikl) </p>
+          <br>
+          <p class="name"> Vice-Captain (Men) </p>
+          <p class="position"> Chris Park <br> (Andrew id: ckpark) </p>
+        </div>
+	<div class = "c5">
+          <p class="name"> Captain (Women) </p>
+          <p class="position"> Katy McKeough <br> (Andrew id: kmckeoug) </p>
+          <br>
+          <p class="name"> Vice-Captain (Women) </p>
+          <p class="position"> Allie Del Giorno <br> (Andrew id: adelgior) </p>
+	  </div>
+      </div>
+ </div><!-- /.container -->
+
+<div class="container clearfix mt-50 mb-20">
+  <div class="c12 row">
+    <h2><span>Current Team Members</span></h2>
+    <div class = "c5">
+      <h3> Men </h3>
+      <br>
+      <ul>
+	<dt> Benjamin Chang </dt>
+        <dt> Andrea Cugno </dt>
+	<dt> Pierre Germa </dt>
+	<dt> Maximillian Kiefer </dt>
+        <dt> Karthik Lakshmanan </dt>
+	<dt> Giovanni Leoni </dt>
+	<dt> Nicholas Mu </dt>
+	<dt> Julien Naegeli </dt>
+	<dt> Chris Park </dt>
+	<dt> Vikram Shanker </dt>
+	<dt> Abhinand Sukumar </dt>
+	<dt> Shiv Wadwani </dt>
+	<dt> Jason Yoon </dt>
+	<dt> David Yu </dt>
+      </ul>
+    </div>
+    <div class = "c5">
+      <h3> Women </h3>
+      <br>
+      <dt> Ai Fukuda </dt>
+      <dt> Allie Del Giorno </dt>
+      <dt> Jennifer Jin </dt>
+      <dt> Evaline Ju </dt>
+      <dt> Rebecca Kem </dt>
+      <dt> Katy McKeough </dt>
+      <dt> Marianna Oliynyk </dt>
+      <dt> Cheyenne Shankle </dt>
+      <dt> Tiffany Zhu </dt>
+    </div>
+  </div>
+</div>
+<br>
+{% endblock %}

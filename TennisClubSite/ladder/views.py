@@ -7,6 +7,11 @@ from ladder.recordform import RecordForm
 from django.core.exceptions import ValidationError
 import rankingcalculator
 
+def roster(request):
+    template = loader.get_template('ladder/roster.html')
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
 def record(request,err=''):
     playerlist = PlayerProfile.objects.all()
     template = loader.get_template('ladder/record.html')

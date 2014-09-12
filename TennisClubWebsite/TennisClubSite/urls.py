@@ -8,7 +8,6 @@ urlpatterns = patterns('',
                        # Examples:
                            # url(r'^$', 'TennisClubSite.views.home', name='home'),
                        # url(r'^blog/', include('blog.urls')),
-                       url(r'$',views.index,name='index'),
                        url(r'^ladder/', include('ladder.urls',namespace="ladder")),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^index/$',views.index,name='index'),
@@ -18,4 +17,5 @@ urlpatterns = patterns('',
                        url(r'^media/$',views.media,name='media'),
                        url(r'^faq/$',views.faq,name='faq'),
                        url(r'^contact/$',views.contact,name='contact'),
+                       url(r'$',views.index,name='index'),
                        )

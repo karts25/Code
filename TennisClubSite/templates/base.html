@@ -34,18 +34,18 @@
   </head>
 
   <body>
-  <div class="sticky">
-    <!-- NAVBAR ================================================== -->
-    <div class="top-bar">
-      <div class="container clearfix">
-        <ul class="social">
-          <li><a href="https://www.facebook.com/groups/271162382911464/" class="fb"></a></li>
-        </ul>
+    <div class="sticky">
+      <!-- NAVBAR ================================================== -->
+      <div class="top-bar">
+	<div class="container clearfix">
+          <ul class="social">
+            <li><a href="https://www.facebook.com/groups/271162382911464/" class="fb"></a></li>
+          </ul>
+	</div>
       </div>
-    </div>
-    <div class="navbar-wrapper">
-      <div class="container">
-        <div class="navbar navbar-inverse navbar-static-top clearfix" role="navigation">
+      <div class="navbar-wrapper">
+	<div class="container">
+          <div class="navbar navbar-inverse navbar-static-top clearfix" role="navigation">
             <div class="navbar-header clearfix">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -65,9 +65,9 @@
 		{%block menu_contact %}<li><a href="/contact">Contact</a></li>{% endblock %}
               </ul>
             </div>
-        </div>
+          </div>
+	</div>
       </div>
-    </div>
 
     {%block content_block %}
     {% endblock %}
@@ -85,5 +85,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{%static "js/bootstrap.js"%}"></script>
+    </div>
   </body>
 </html>

@@ -17,5 +17,5 @@ urlpatterns = patterns('',
                        url(r'^media/$',views.media,name='media'),
                        url(r'^faq/$',views.faq,name='faq'),
                        url(r'^contact/$',views.contact,name='contact'),
-                       url(r'$',views.index,name='index'),
+                       url(r'^$',views.index,name='index'),
                        )

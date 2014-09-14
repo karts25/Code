@@ -24,11 +24,12 @@ def record(request,err=''):
     #return render(request,'ladder/record.html')
 
 
-def history(request):
+def history(request,msg=''):
     matchlist = Match.objects.all()
     template = loader.get_template('ladder/history.html')
     context = RequestContext(request,{
             'matchlist':matchlist,
+            'msg':msg,
             })
     return HttpResponse(template.render(context))
 
@@ -56,8 +57,9 @@ def recorded(request):
     team1_id2 = request.POST['team1id2']
     team2_id2 = request.POST['team2id2']
     
-    if team1_setscore !=6 or team2_setscore !=6:
-        return record(request,'*** ERROR! The winner has to have 6 games.')
+    #if (team1_setscore !=6) and (team2_setscore !=6):
+    #    print team1_setscore, team2_setscore, (team1_setscore!=6)
+#return record(request,'*** ERROR! The winner has to have 6 games.')
 
     if (team1_id1 == team2_id1):
         return record(request,'*** ERROR: Same player on both sides of the net!')
@@ -84,7 +86,7 @@ def recorded(request):
                       winner1 = winner1, loser1 = loser1, 
                       winner_setscore=winner_setscore,loser_setscore=loser_setscore)
         match.save()
-        rankingcalculator.seven_point_system()
+        #rankingcalculator.seven_point_system()
     else:
         if (not team1_id2) or (not team2_id2):
             return record(request,'*** ERROR: Player 2 required for doubles')
@@ -155,11 +157,10 @@ def recorded(request):
                       winner1 = winner1, winner2 = winner2, loser1 = loser1, loser2 = loser2,
                       winner_setscore=winner_setscore,loser_setscore=loser_setscore)        
         match.save()
-        rankingcalculator.update_matchstats_doubles_all()
+        #rankingcalculator.update_matchstats_doubles_all()
 
-    return redirect('/ladder/history',request)
+    return redirect('/ladder/history',request,'Match successfully recorded!')
     
-
 def rankings_singles(request):
     # Update player scores
     playerlist_men = PlayerProfile.objects.filter(gender='M').order_by('-matchstats__score')

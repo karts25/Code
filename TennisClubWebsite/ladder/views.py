@@ -40,11 +40,11 @@ def recorded(request):
     user = authenticate(username=username, password=password)
     
     if user is None:
-        return record(request,'* User login information is not valid')
+        return record(request,'*** ERROR: User login information is not valid')
 
     form = RecordForm(request.POST)
     if not form.is_valid():
-        return record(request,'* Please check if Match Type, Date and scores are valid')
+        return record(request,'*** ERROR: Please check if Match Type, Date and scores are valid')
     matchtype = request.POST['matchtype']
     matchdate = request.POST['matchdate']
     team1_id1 = request.POST['team1id1']
@@ -53,9 +53,14 @@ def recorded(request):
     team2_player1 = PlayerProfile.objects.get(user__username__exact = team2_id1)
     team1_setscore = request.POST['team1_setscore']
     team2_setscore = request.POST['team2_setscore']
+    team1_id2 = request.POST['team1id2']
+    team2_id2 = request.POST['team2id2']
     
-    if team1_id1 == team2_id1:
-        return record(request,'* Surely you did not play against yourself!')
+    if team1_setscore !=6 or team2_setscore !=6:
+        return record(request,'*** ERROR! The winner has to have 6 games.')
+
+    if (team1_id1 == team2_id1):
+        return record(request,'*** ERROR: Same player on both sides of the net!')
 
     if team1_setscore > team2_setscore:
         winner1 = team1_player1
@@ -70,19 +75,22 @@ def recorded(request):
 
     # Add new match to the list of matches
     if matchtype=='singles':            
+        if team1_id2 or team2_id2:
+            return record(request,'*** ERROR: Two team members entered for a singles match.')
+        if winner1.gender != loser1.gender:
+            return record(request,'*** ERROR: Mixed gender singles matches are not recorded in the ladder')
+
         match = Match(matchtype=matchtype,matchdate=matchdate,
                       winner1 = winner1, loser1 = loser1, 
                       winner_setscore=winner_setscore,loser_setscore=loser_setscore)
         match.save()
         rankingcalculator.seven_point_system()
     else:
-        team1_id2 = request.POST['team1id2']
-        team2_id2 = request.POST['team2id2']
         if (not team1_id2) or (not team2_id2):
-            return record(request,'* Player 2 required for doubles')
+            return record(request,'*** ERROR: Player 2 required for doubles')
         
         if len(set([team1_id1,team1_id2,team2_id1,team2_id2])) < 4:
-            return record(request,'* All 4 players must be unique')
+            return record(request,'*** ERROR: All 4 players must be unique')
             
         team1_player2 = PlayerProfile.objects.get(user__username__exact = team1_id2)
         team2_player2 = PlayerProfile.objects.get(user__username__exact = team2_id2)

@@ -5,10 +5,10 @@
 {%block ladder_title %} Record Match {% endblock %}
 {%block ladder_content_block %}    
 <div class="container clearfix mb-20">
+  <h3><span> {{error}}</span> </h3>
   <b> Rules: </b> <br>
   Only matches played during club practice will count towards the ladder.<br>
-  Ladder matches are all 6 game no-ad sets. A regular tie-break (first to 7, win by 2) is played at 5-5.
-  <h3><span> {{error}} </span></h3>
+  Ladder matches are all 6 game no-ad sets. A regular tie-break (first to 7, win by 2) is played at 5-5.  
   <form action="{% url 'ladder:recorded' %}" method="post">
     {% csrf_token %}
     {{form}}

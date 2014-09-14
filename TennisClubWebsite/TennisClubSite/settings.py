@@ -21,9 +21,9 @@ TEMPLATE_DIRS = [
 SECRET_KEY = '78qrj7j3pbb_l%p*sob4t&3g&i^6r9zzfrb*i1klg+04130w(a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 
 ALLOWED_HOSTS = []

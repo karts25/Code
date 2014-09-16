@@ -24,7 +24,7 @@ def seven_point_system():
         winner = match.winner1
         loser  = match.loser1
         
-        if winner.matchstats.score > loser.matchstats.score:
+        if winner.matchstats.score >= loser.matchstats.score:
             # if winner is higher ranked, they get 7 points.
             winner.matchstats.score = winner.matchstats.score + 7
             

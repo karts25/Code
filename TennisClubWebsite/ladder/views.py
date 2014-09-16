@@ -86,7 +86,7 @@ def recorded(request):
                       winner1 = winner1, loser1 = loser1, 
                       winner_setscore=winner_setscore,loser_setscore=loser_setscore)
         match.save()
-        #rankingcalculator.seven_point_system()
+        rankingcalculator.seven_point_system()
     else:
         if (not team1_id2) or (not team2_id2):
             return record(request,'*** ERROR: Player 2 required for doubles')
@@ -157,7 +157,7 @@ def recorded(request):
                       winner1 = winner1, winner2 = winner2, loser1 = loser1, loser2 = loser2,
                       winner_setscore=winner_setscore,loser_setscore=loser_setscore)        
         match.save()
-        #rankingcalculator.update_matchstats_doubles_all()
+        rankingcalculator.update_matchstats_doubles_all()
 
     return redirect('/ladder/history',request,'Match successfully recorded!')
     

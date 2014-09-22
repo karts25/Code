@@ -108,7 +108,7 @@ def recorded(request):
             team2_player2 = temp
         
         # if team1 is new, make a profile for them    
-        doublesteamprofile1 = DoublesTeamProfile.objects.get(player1 = team1_player1, 
+        doublesteamprofile1 = DoublesTeamProfile.objects.filter(player1 = team1_player1, 
                                                              player2 = team1_player2)
         if not doublesteamprofile1:
             if team1_player1.gender == 'M' and team1_player2.gender == 'M':
@@ -125,8 +125,12 @@ def recorded(request):
                                                      gender=gender,matchstats=matchstats1)
             doublesteamprofile1.save()
 
+        else:
+            doublesteamprofile1 = DoublesTeamProfile.objects.get(player1 = team1_player1, 
+                                                                 player2 = team1_player2)
+
         # if team2 is new, make a profile for them    
-        doublesteamprofile2 = DoublesTeamProfile.objects.get(player1 = team2_player1, 
+        doublesteamprofile2 = DoublesTeamProfile.objects.filter(player1 = team2_player1, 
                                                              player2 = team2_player2)
         if not doublesteamprofile2:
             if team2_player1.gender == 'M' and team2_player2.gender == 'M':
@@ -141,6 +145,9 @@ def recorded(request):
                                                      player2=team2_player2,
                                                      gender=gender,matchstats=matchstats2)  
             doublesteamprofile2.save()
+        else:
+            doublesteamprofile2 = DoublesTeamProfile.objects.get(player1 = team2_player1, 
+                                                                    player2 = team2_player2)
 
         # Create match object for this match
         if team1_setscore > team2_setscore:
@@ -174,9 +181,9 @@ def rankings_singles(request):
         
 
 def rankings_doubles(request):
-    teamlist_men = DoublesTeamProfile.objects.filter(gender='M').order_by('-matchstats__score')
-    teamlist_women = DoublesTeamProfile.objects.filter(gender='W').order_by('-matchstats__score')
-    teamlist_mixed = DoublesTeamProfile.objects.filter(gender='X').order_by('-matchstats__score')
+    teamlist_men = DoublesTeamProfile.objects.filter(gender='M').order_by('-matchstats__percentwon')
+    teamlist_women = DoublesTeamProfile.objects.filter(gender='W').order_by('-matchstats__percentwon')
+    teamlist_mixed = DoublesTeamProfile.objects.filter(gender='X').order_by('-matchstats__percentwon')
     template = loader.get_template('ladder/doubles.html')
     context = RequestContext(request,{
             'teamlist_men':teamlist_men,

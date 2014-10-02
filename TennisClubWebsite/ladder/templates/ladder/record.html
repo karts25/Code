@@ -29,13 +29,13 @@
     <input type="date"  name ="matchdate"><br>
     
     <h2><span> Team 1 </span></h2> 
-    Andrew id of Player 1
+    Player 1
     <select name="team1id1">
       {% for player in playerlist %}
       <option value={{player.user.username}}>{{player.user.first_name}}</option>
       {% endfor %}
     </select>
-    Andrew id of Player 2
+    Player 2
     <select name="team1id2">
       <option value="">None</option>
       {% for player in playerlist %}
@@ -44,13 +44,13 @@
     </select>
     Set Score <input type=number name = "team1_setscore"> <br>
     <h2><span> Team 2 </span></h2>
-    Andrew id of Player 1 
+    Player 1 
     <select name="team2id1">
       {% for player in playerlist %}
       <option value={{player.user.username}}>{{player.user.first_name}}</option>
       {% endfor %}
     </select>
-    Andrew id of Player 2
+    Player 2
     <select name="team2id2">
       <option value=''>None</option>
       {% for player in playerlist %}

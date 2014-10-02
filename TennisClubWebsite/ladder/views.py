@@ -170,8 +170,8 @@ def recorded(request):
     
 def rankings_singles(request):
     # Update player scores
-    playerlist_men = PlayerProfile.objects.filter(gender='M').order_by('-matchstats__score')
-    playerlist_women = PlayerProfile.objects.filter(gender='W').order_by('-matchstats__score')
+    playerlist_men = PlayerProfile.objects.filter(gender='M').order_by('-matchstats__score','-matchstats__percentwon','-matchstats__numplayed')
+    playerlist_women = PlayerProfile.objects.filter(gender='W').order_by('-matchstats__score','-matchstats__percentwon','-matchstats__numplayed')
     template = loader.get_template('ladder/singles.html')
     context = RequestContext(request,{
             'playerlist_men':playerlist_men,
@@ -181,9 +181,9 @@ def rankings_singles(request):
         
 
 def rankings_doubles(request):
-    teamlist_men = DoublesTeamProfile.objects.filter(gender='M').order_by('-matchstats__percentwon')
-    teamlist_women = DoublesTeamProfile.objects.filter(gender='W').order_by('-matchstats__percentwon')
-    teamlist_mixed = DoublesTeamProfile.objects.filter(gender='X').order_by('-matchstats__percentwon')
+    teamlist_men = DoublesTeamProfile.objects.filter(gender='M').order_by('-matchstats__percentwon','-matchstats__numplayed')
+    teamlist_women = DoublesTeamProfile.objects.filter(gender='W').order_by('-matchstats__percentwon','-matchstats__numplayed')
+    teamlist_mixed = DoublesTeamProfile.objects.filter(gender='X').order_by('-matchstats__percentwon','-matchstats__numplayed')
     template = loader.get_template('ladder/doubles.html')
     context = RequestContext(request,{
             'teamlist_men':teamlist_men,
